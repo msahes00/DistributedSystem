@@ -1,5 +1,7 @@
 #!/bin/bash
-export PATH="$PATH:/usr/home/hadoop/bin"
+# asume hadoop is located in /usr/local/hadoop
+HADOOP="/usr/local/hadoop"
+export PATH="$PATH:$HADOOP/bin"
 
 echo "******************************************************"
 echo "****             Build the project                ****"
@@ -21,6 +23,12 @@ echo "****      Execucion result of Hadoop in local     ****"
 echo "******************************************************"
 cat ./output/*
 
+echo "******************************************************"
+echo "****          Set up pseudo-cluster mode          ****"
+echo "******************************************************"
+hadoop namenode -format
+$HADOOP/sbin/start-dfs.sh
+$HADOOP/sbin/start-yarn.sh
 
 
 echo "******************************************************"
