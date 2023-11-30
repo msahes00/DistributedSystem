@@ -1,4 +1,4 @@
-//MaxTemperatureDriver Application to find the maximum temperature
+//AverageTemperatureDriver Application to find the average temperature
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class MaxTemperatureDriver extends Configured implements Tool {
+public class AverageTemperatureDriver extends Configured implements Tool {
 
   @Override
   public int run(String[] args) throws Exception {
@@ -20,15 +20,15 @@ public class MaxTemperatureDriver extends Configured implements Tool {
       return -1;
     }
     
-    Job job = new Job(getConf(), "Max temperature");
+    Job job = new Job(getConf(), "Average temperature");
     job.setJarByClass(getClass());
 
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
     
-    job.setMapperClass(MaxTemperatureMapper.class);
-    job.setCombinerClass(MaxTemperatureReducer.class);
-    job.setReducerClass(MaxTemperatureReducer.class);
+    job.setMapperClass(AverageTemperatureMapper.class);
+    job.setCombinerClass(AverageTemperatureReducer.class);
+    job.setReducerClass(AverageTemperatureReducer.class);
 
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
@@ -37,7 +37,7 @@ public class MaxTemperatureDriver extends Configured implements Tool {
   }
   
   public static void main(String[] args) throws Exception {
-    int exitCode = ToolRunner.run(new MaxTemperatureDriver(), args);
+    int exitCode = ToolRunner.run(new AverageTemperatureDriver(), args);
     System.exit(exitCode);
   }
 }

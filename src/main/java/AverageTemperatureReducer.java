@@ -1,11 +1,11 @@
-//MaxTemperatureReducer Reducer for maximum temperature example
+//AverageTemperatureReducer Reducer for average temperature example
 import java.io.IOException;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class MaxTemperatureReducer
+public class AverageTemperatureReducer
   extends Reducer<Text, IntWritable, Text, IntWritable> {
 
   @Override
@@ -13,11 +13,13 @@ public class MaxTemperatureReducer
       Context context)
       throws IOException, InterruptedException {
     
-    int maxValue = Integer.MIN_VALUE;
+    int sum = 0;
+    int count = 0;
     for (IntWritable value : values) {
-      maxValue = Math.max(maxValue, value.get());
+      sum += value.get();
+      count++;
     }
-    context.write(key, new IntWritable(maxValue));
+    int averageValue = sum / count;
+    context.write(key, new IntWritable(averageValue));
   }
 }
-
